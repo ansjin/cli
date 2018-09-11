@@ -15,18 +15,20 @@ const (
 	defaultVersion = "1.0"
 	versionField   = "version"
 )
-
 type portsFormatChecker struct{}
 
-func (checker portsFormatChecker) IsFormat(input string) bool {
+func (checker portsFormatChecker) IsFormat(input interface{}) bool {
 	// TODO: implement this
 	return true
 }
-
 type durationFormatChecker struct{}
 
-func (checker durationFormatChecker) IsFormat(input string) bool {
-	_, err := time.ParseDuration(input)
+func (checker durationFormatChecker) IsFormat(input interface{}) bool {
+	asStringTime, ok := input.(string)
+	if ok == false {
+		return false
+	}
+	_, err := time.ParseDuration(asStringTime)
 	return err == nil
 }
 
